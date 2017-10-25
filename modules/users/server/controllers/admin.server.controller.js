@@ -39,6 +39,34 @@ exports.update = function (req, res) {
 };
 
 /**
+ * Admin creates user
+ */
+exports.adminsignup = function (req, res) {
+  // For security measurement we remove the roles from the req.body object
+  delete req.body.roles;
+
+  // Init user and add missing fields
+  var user = new User(req.body);
+  user.provider = 'local';
+  user.displayName = user.firstName + ' ' + user.lastName;
+  user.approvedStatus = true;
+
+  // Then save the user
+  user.save(function (err) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      // Remove sensitive data before login
+      user.password = undefined;
+      user.salt = undefined;
+      res.status(200).send();
+    }
+  });
+};
+
+/**
  * Delete a user
  */
 exports.delete = function (req, res) {
