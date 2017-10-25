@@ -5,18 +5,18 @@
     .module('users')
     .controller('AddUserController', AddUserController);
 
-  AddUserController.$inject = ['$scope', '$state', 'UsersService', '$location', '$window', 'Notification'];
+  AddUserController.$inject = ['$scope', '$state', 'UsersService', '$location', '$window', 'Notification', 'ApplicantsService'];
 
-  function AddUserController($scope, $state, UsersService, $location, $window, Notification) {
+  function AddUserController($scope, $state, UsersService, ApplicantsService, $location, $window, Notification) {
     var vm = this;
 
     vm.signup = signup;
     vm.usernameRegex = /^(?=[\w.-]+$)(?!.*[._-]{2})(?!\.)(?!.*\.$).{3,34}$/;
 
     // Get an eventual error defined in the URL query string:
-    if ($location.search().err) {
-      Notification.error({ message: $location.search().err });
-    }
+    //if ($location.search().err) {
+    //  Notification.error({ message: $location.search().err });
+    //}
 
 
     function signup(isValid) {
@@ -27,7 +27,7 @@
         return false;
       }
 
-      UsersService.userSignup(vm.credentials)
+      ApplicantsService.adminsignup(vm.credentials)
         .then(onAddUserSuccess)
         .catch(onAddUserError);
     }

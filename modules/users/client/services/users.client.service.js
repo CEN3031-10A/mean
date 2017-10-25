@@ -44,6 +44,7 @@
         method: 'POST',
         url: '/api/auth/signin'
       }
+
     });
 
     angular.extend(Users, {
@@ -87,6 +88,10 @@
       changeToAccepted: {
         method: 'POST',
         url: '/api/unapproved'
+      },
+      adminsignup: {
+        method: 'POST',
+        url: '/api/add'
       }
     });
 
@@ -96,6 +101,9 @@
       },
       approveUser: function () {
         return this.changeToAccepted().$promise;
+      },
+      adminSignup: function(){
+        return this.adminsignup().$promise;
       }
     });
     return Applicants;
