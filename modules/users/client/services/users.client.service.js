@@ -102,7 +102,7 @@
       approveUser: function () {
         return this.changeToAccepted().$promise;
       },
-      adminSignup: function(){
+      adminsignup: function(){
         return this.adminsignup().$promise;
       }
     });
