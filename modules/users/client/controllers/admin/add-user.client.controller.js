@@ -13,12 +13,6 @@
     vm.signup = signup;
     vm.usernameRegex = /^(?=[\w.-]+$)(?!.*[._-]{2})(?!\.)(?!.*\.$).{3,34}$/;
 
-    // Get an eventual error defined in the URL query string:
-    //if ($location.search().err) {
-    //  Notification.error({ message: $location.search().err });
-    //}
-
-
     function signup(isValid) {
 
       if (!isValid) {
@@ -27,11 +21,7 @@
         return false;
       }
 
-      vm.newUser = new NewUserService(vm.credentials);
-
       NewUserService.adminSignup(vm.credentials);
-        //.then(onAddUserSuccess)
-        //.catch(onAddUserError);
     }
 
     // Authentication Callbacks

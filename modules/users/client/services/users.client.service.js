@@ -110,16 +110,15 @@
   NewUserService.$inject = ['$resource'];
 
   function NewUserService($resource){
-    var NewUser = $resource('/api/add'); , {}, {
+    var NewUser = $resource('/api/add' , {}, {
       adminSignupUser: {
-        method: 'POST',
-        url: '/api/add'
+        method: 'POST'
       }
     });
 
     angular.extend(NewUser, {
-      adminSignup: function(user){
-          return this.adminSignupUser(user).$promise;
+      adminSignup: function(){
+          return this.adminSignupUser().$promise;
       }
     });
 
