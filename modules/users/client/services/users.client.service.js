@@ -88,6 +88,10 @@
       changeToAccepted: {
         method: 'POST',
         url: '/api/unapproved'
+      },
+      adminSignupUser: {
+        method: 'POST',
+        url: '/api/admin/add'
       }
     });
 
@@ -97,13 +101,16 @@
       },
       approveUser: function () {
         return this.changeToAccepted().$promise;
+      },
+      adminSignup: function (credentials) {
+        return this.adminSignupUser(credentials).$promise;
       }
     });
     return Applicants;
   }
 
 
-  angular
+ /* angular
     .module('users.admin.services')
     .factory('NewUserService', NewUserService);
 
@@ -123,7 +130,7 @@
     });
 
     return NewUser;
-  }
+  }*/
 
   // TODO this should be Users service
   angular
