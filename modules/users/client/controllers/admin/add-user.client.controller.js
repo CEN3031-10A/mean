@@ -5,9 +5,9 @@
     .module('users')
     .controller('AddUserController', AddUserController);
 
-  AddUserController.$inject = ['$scope', '$state', 'UsersService', '$location', '$window', 'Notification', 'NewUserService'];
+  AddUserController.$inject = ['$scope', '$state', 'UsersService', '$location', '$window', 'Notification', 'ApplicantsService'];
 
-  function AddUserController($scope, $state, UsersService, NewUserService, $location, $window, Notification) {
+  function AddUserController($scope, $state, UsersService, ApplicantsService, $location, $window, Notification) {
     var vm = this;
 
     vm.signup = signup;
@@ -21,7 +21,7 @@
         return false;
       }
 
-      NewUserService.adminSignup(vm.credentials);
+      ApplicantsService.adminSignup(vm.credentials);
     }
 
     // Authentication Callbacks
