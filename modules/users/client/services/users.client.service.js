@@ -91,7 +91,7 @@
       },
       adminSignupUser: {
         method: 'POST',
-        url: '/api/admin/add'
+        url: '/api/add'
       }
     });
 
@@ -110,7 +110,7 @@
   }
 
 
- /* angular
+ /*angular
     .module('users.admin.services')
     .factory('NewUserService', NewUserService);
 
@@ -124,8 +124,8 @@
     });
 
     angular.extend(NewUser, {
-      adminSignup: function(){
-          return this.adminSignupUser().$promise;
+      adminSignup: function(credentials){
+          return this.adminSignupUser(credentials).$promise;
       }
     });
 

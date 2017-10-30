@@ -7,7 +7,7 @@
 
   AddUserController.$inject = ['$scope', '$state', 'UsersService', '$location', '$window', 'Notification', 'ApplicantsService'];
 
-  function AddUserController($scope, $state, UsersService, ApplicantsService, $location, $window, Notification) {
+  function AddUserController($scope, $state, UsersService, $location, $window, Notification, ApplicantsService) {
     var vm = this;
 
     vm.signup = signup;
@@ -21,16 +21,13 @@
         return false;
       }
 
-      ApplicantsService.adminSignup(vm.credentials);
+      ApplicantsService.adminSignup(vm.credentials)
+        .then(onAddUserSuccess)
+        .catch(onAddUserError);
     }
 
-    // Authentication Callbacks
-
     function onAddUserSuccess(response) {
-      // If successful we assign the response to the global user model
-      //vm.authentication.user = response;
       Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Signup successful!' });
-      // And redirect to the previous or home page
       $state.go($state.previous.state.name || 'home', $state.previous.params);
     }
 
@@ -38,6 +35,5 @@
       Notification.error({ message: response.data.message, title: '<i class="glyphicon glyphicon-remove"></i> Add User Error!', delay: 6000 });
     }
 
-    
   }
 }());

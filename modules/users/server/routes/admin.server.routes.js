@@ -14,6 +14,7 @@ module.exports = function (app) {
   app.route('/api/users')
     .get(adminPolicy.isAllowed, admin.list);
 
+  // Admin routes for approving a new user
   app.route('/api/unapproved')
     .get(adminPolicy.isAllowed, admin.unapprovedList)
     .post(adminPolicy.isAllowed, admin.changeToAccepted)
@@ -25,7 +26,8 @@ module.exports = function (app) {
     .put(adminPolicy.isAllowed, admin.update)
     .delete(adminPolicy.isAllowed, admin.delete);
 
-   app.route('/api/add')
+  // Admin routes for applying a new user.
+  app.route('/api/add')
     .post(adminPolicy.isAllowed, admin.adminsignup);
   
   // Finish by binding the user middleware

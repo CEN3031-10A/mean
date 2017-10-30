@@ -32,7 +32,7 @@
         url: '/add',
         templateUrl: '/modules/users/client/views/admin/add-user.client.view.html',
         controller: 'AddUserController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
       })
       .state('admin.user-edit', {
         url: '/users/:userId/edit',
