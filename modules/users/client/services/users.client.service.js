@@ -109,29 +109,6 @@
     return Applicants;
   }
 
-
- /*angular
-    .module('users.admin.services')
-    .factory('NewUserService', NewUserService);
-
-  NewUserService.$inject = ['$resource'];
-
-  function NewUserService($resource){
-    var NewUser = $resource('/api/add' , {}, {
-      adminSignupUser: {
-        method: 'POST'
-      }
-    });
-
-    angular.extend(NewUser, {
-      adminSignup: function(credentials){
-          return this.adminSignupUser(credentials).$promise;
-      }
-    });
-
-    return NewUser;
-  }*/
-
   // TODO this should be Users service
   angular
     .module('users.admin.services')
