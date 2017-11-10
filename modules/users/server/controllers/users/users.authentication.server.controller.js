@@ -43,6 +43,7 @@ exports.signup = function (req, res) {
   });
 };
 
+
 /**
  * Signin after passport authentication
  */
