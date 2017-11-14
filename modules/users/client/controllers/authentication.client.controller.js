@@ -34,9 +34,20 @@
         return false;
       }
 
+      vm.credentials.roles = alterRole(vm.credentials.roles);
+
       UsersService.userSignup(vm.credentials)
         .then(onUserSignupSuccess)
         .catch(onUserSignupError);
+    }
+
+    function alterRole (role) {
+      if(role === "admin" || role === "technician")
+        return role;
+      if(role === "TA")
+        return "ta";
+      if(role === "seniorTA")
+        return "superta";
     }
 
     function signin(isValid) {
