@@ -39,6 +39,31 @@ exports.update = function (req, res) {
 };
 
 /**
+ * Admin creates user
+ */
+exports.adminsignup = function (req, res) {
+  // For security measurement we remove the roles from the req.body object
+  //delete req.body.roles;
+
+  var user = new User(req.body);
+  user.provider = 'local';
+  user.approvedStatus = true;
+
+  user.save(function (err) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      // Remove sensitive data before login
+      user.password = undefined;
+      user.salt = undefined;
+      res.status(200).send();
+    }
+  });
+};
+
+/**
  * Delete a user
  */
 exports.delete = function (req, res) {
@@ -69,6 +94,45 @@ exports.list = function (req, res) {
     res.json(users);
   });
 };
+
+exports.unapprovedList = function(req, res) {
+  User
+    .find({ approvedStatus: false })
+    .sort('-created')
+    .populate('user', 'displayName')
+    .exec(function(err, unapprovedUsers) {
+      if (err) {
+        return res.status(422).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+
+      res.json(unapprovedUsers);
+    });
+}
+
+exports.changeToAccepted = function (req, res) {
+  var unapprovedUser = req.body;
+  User.findOneAndUpdate({'username' : unapprovedUser.username}, {$set: {'approvedStatus' : true}}, function(err, changedUser) {
+    if (err) {
+      return res.status(422).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(changedUser);
+  });
+}
+
+
+exports.deleteApplicant = function (req, res) {
+  var unapprovedUser = req.query;
+  if (unapprovedUser) {
+    User.findOneAndRemove({'username': unapprovedUser.username, 'approvedStatus': false}, function (err) {
+      if (err) throw err;
+      console.log(unapprovedUser.approvedStatus);
+    });
+  }
+}
 
 /**
  * User middleware

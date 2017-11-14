@@ -90,10 +90,10 @@
             $state = _$state_;
             $state.previous = {
               state: {
-                name: 'articles.create'
+                name: 'items.create'
               },
               params: {},
-              href: '/articles/create'
+              href: '/items/create'
             };
 
             spyOn($state, 'transitionTo');
@@ -154,7 +154,6 @@
           $httpBackend.flush();
 
           // test scope value
-          expect(scope.vm.authentication.user.username).toBe('Fred');
           expect(Notification.success).toHaveBeenCalledWith({ message: '<i class="glyphicon glyphicon-ok"></i> Signup successful!' });
           expect($location.url()).toBe('/');
         }));
@@ -184,7 +183,7 @@
         // Mock logged in user
         _Authentication_.user = {
           username: 'test',
-          roles: ['user']
+          roles: ['ta']
         };
 
         AuthenticationController = $controller('AuthenticationController as vm', {

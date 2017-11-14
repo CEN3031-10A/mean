@@ -9,14 +9,14 @@
 
   function menuConfig(menuService) {
     menuService.addMenu('account', {
-      roles: ['user']
+      roles: ['*']
     });
 
     menuService.addMenuItem('account', {
       title: '',
       state: 'settings',
       type: 'dropdown',
-      roles: ['user']
+      roles: ['*']
     });
 
     menuService.addSubMenuItem('account', 'settings', {
@@ -32,11 +32,6 @@
     menuService.addSubMenuItem('account', 'settings', {
       title: 'Change Password',
       state: 'settings.password'
-    });
-
-    menuService.addSubMenuItem('account', 'settings', {
-      title: 'Manage Social Accounts',
-      state: 'settings.accounts'
     });
   }
 }());

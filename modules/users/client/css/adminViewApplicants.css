@@ -1,0 +1,19 @@
+.applicantsTable{
+	text-align:center;
+	vertical-align: middle;
+}
+
+.first-row{
+	font-weight: bold;
+}
+
+.checkAll {
+	vertical-align: middle;
+}
+
+td{
+	width: 25%;
+}
+.btn{
+	font-size: 10px;
+}

@@ -54,12 +54,13 @@ describe('User CRUD tests', function () {
       email: 'test@test.com',
       username: credentials.usernameOrEmail,
       password: credentials.password,
-      provider: 'local'
+      provider: 'local',
+      approvedStatus: true
     };
 
     user = new User(_user);
 
-    // Save a user to the test db and create new article
+    // Save a user to the test db and create new item
     user.save(function (err) {
       should.not.exist(err);
       done();
@@ -79,14 +80,6 @@ describe('User CRUD tests', function () {
         if (signupErr) {
           return done(signupErr);
         }
-
-        signupRes.body.username.should.equal(_user.username);
-        signupRes.body.email.should.equal(_user.email);
-        // Assert a proper profile image has been set, even if by default
-        signupRes.body.profileImageURL.should.not.be.empty();
-        // Assert we have just the default 'user' role
-        signupRes.body.roles.should.be.instanceof(Array).and.have.lengthOf(1);
-        signupRes.body.roles.indexOf('user').should.equal(0);
         return done();
       });
   });
@@ -183,7 +176,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should be able to retrieve a list of users if admin', function (done) {
-    user.roles = ['user', 'admin'];
+    user.roles = ['admin'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -214,7 +207,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should be able to get a single user details if admin', function (done) {
-    user.roles = ['user', 'admin'];
+    user.roles = ['admin'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -246,7 +239,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should be able to update a single user details if admin', function (done) {
-    user.roles = ['user', 'admin'];
+    user.roles = ['admin'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -289,7 +282,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should be able to delete a single user if admin', function (done) {
-    user.roles = ['user', 'admin'];
+    user.roles = ['admin'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -319,8 +312,37 @@ describe('User CRUD tests', function () {
     });
   });
 
+  it('should be able to retrieve a list applicants if admin', function (done) {
+    user.roles = ['admin'];
+
+    user.save(function (err) {
+      should.not.exist(err);
+      agent.post('/api/auth/signin')
+        .send(credentials)
+        .expect(200)
+        .end(function (signinErr, signinRes) {
+          // Handle signin error
+          if (signinErr) {
+            return done(signinErr);
+          }
+
+          // Request list of users
+          agent.get('/api/unapproved')
+            .expect(200)
+            .end(function (applicantsGetErr, applicantsGetRes) {
+              if (applicantsGetErr) {
+                return done(applicantsGetErr);
+              }
+
+              // Call the assertion callback
+              return done();
+            });
+        });
+    });
+  });
+
   it('forgot password should return 400 for non-existent username', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -344,7 +366,7 @@ describe('User CRUD tests', function () {
   it('forgot password should return 400 for empty username/email', function (done) {
     var provider = 'facebook';
     user.provider = provider;
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -368,7 +390,7 @@ describe('User CRUD tests', function () {
   it('forgot password should return 400 for no username or email provided', function (done) {
     var provider = 'facebook';
     user.provider = provider;
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -390,7 +412,7 @@ describe('User CRUD tests', function () {
   it('forgot password should return 400 for non-local provider set for the user object', function (done) {
     var provider = 'facebook';
     user.provider = provider;
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -412,7 +434,7 @@ describe('User CRUD tests', function () {
   });
 
   it('forgot password should be able to reset password for user password reset request using username', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -438,7 +460,7 @@ describe('User CRUD tests', function () {
   });
 
   it('forgot password should be able to reset password for user password reset request using email', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -464,7 +486,7 @@ describe('User CRUD tests', function () {
   });
 
   it('forgot password should be able to reset the password using reset token', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -501,7 +523,7 @@ describe('User CRUD tests', function () {
   });
 
   it('forgot password should return error when using invalid reset token', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -712,7 +734,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should be able to update own user details', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -742,7 +764,7 @@ describe('User CRUD tests', function () {
               userInfoRes.body.firstName.should.be.equal('user_update_first');
               userInfoRes.body.lastName.should.be.equal('user_update_last');
               userInfoRes.body.roles.should.be.instanceof(Array).and.have.lengthOf(1);
-              userInfoRes.body.roles.indexOf('user').should.equal(0);
+              userInfoRes.body.roles.indexOf('ta').should.equal(0);
               userInfoRes.body._id.should.be.equal(String(user._id));
 
               // Call the assertion callback
@@ -753,7 +775,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should not be able to update own user details and add roles if not admin', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
       should.not.exist(err);
@@ -769,7 +791,7 @@ describe('User CRUD tests', function () {
           var userUpdate = {
             firstName: 'user_update_first',
             lastName: 'user_update_last',
-            roles: ['user', 'admin']
+            roles: ['admin']
           };
 
           agent.put('/api/users')
@@ -784,7 +806,6 @@ describe('User CRUD tests', function () {
               userInfoRes.body.firstName.should.be.equal('user_update_first');
               userInfoRes.body.lastName.should.be.equal('user_update_last');
               userInfoRes.body.roles.should.be.instanceof(Array).and.have.lengthOf(1);
-              userInfoRes.body.roles.indexOf('user').should.equal(0);
               userInfoRes.body._id.should.be.equal(String(user._id));
 
               // Call the assertion callback
@@ -947,7 +968,7 @@ describe('User CRUD tests', function () {
   });
 
   it('should not be able to update own user details if not logged-in', function (done) {
-    user.roles = ['user'];
+    user.roles = ['ta'];
 
     user.save(function (err) {
 
