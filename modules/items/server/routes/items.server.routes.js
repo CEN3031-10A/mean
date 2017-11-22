@@ -10,7 +10,7 @@ module.exports = function (app) {
   // Articles collection routes
   app.route('/api/items').all(itemsPolicy.isAllowed)
     .get(items.list)
-    .post(items.create);
+    .post(items.create); //TODO can we remove this line?
 
   app.route('/api/items/create').all(itemsPolicy.isAllowed)
   .get(items.list)    

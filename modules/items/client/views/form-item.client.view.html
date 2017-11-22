@@ -47,6 +47,10 @@
           </div>
 
         <div class="form-group">
+          <a class="btn btn-danger" ng-click="vm.increment(item, -10)">-10</a>
+          <a class="btn btn-danger" ng-click="vm.increment(item, -1)">-1</a>
+          <a class="btn btn-success" ng-click="vm.increment(item, 1)">1</a>
+          <a class="btn btn-success" ng-click="vm.increment(item, 10)">10</a>
           <label class="control-label" for="title">Count</label>
           <input name="count" type="text" ng-model="vm.item.count" id="count" class="form-control" placeholder="Count">
           <label class="control-label" for="title">Restock Threshold (Sends email when count drops below this)</label>
