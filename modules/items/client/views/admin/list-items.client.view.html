@@ -1,19 +1,15 @@
-<section>
+﻿<section>
   <div class="page-header">
     <h1>
       Items
-    </h1>
-      <span><span class="glyphicon glyphicon-search"></span><input type="text" size= "44" placeholder="Search by name, content, category or module" ng-model="query">
-      <a class="btn btn-primary pull-right" data-ui-sref="items.create">
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.items.create">
         <i class="glyphicon glyphicon-plus"></i>
       </a>
-    </span>
-    <div>
-  </div>
+    </h1>
   </div>
   <div class="list-group" style="width: 100%">
     <table>
-    <tr data-ng-repeat="item in vm.items | filter: query"> 
+    <tr data-ng-repeat="item in vm.items"> 
     <td span= "1" style="width: 84%;">
     <a data-ui-sref="admin.items.edit({itemId: item._id})" class="list-group-item">
       <small class="list-group-item-text">
@@ -27,12 +23,12 @@
       <p class="list-group-item-text" data-ng-bind="item.content"></p>
       <b> Count:</b>
       <span ng-if="item.count" ng-bind="item.count"></span>
-      <b ng-if="item.categories"> Category:</b>
+      <b> Category:</b>
       <span ng-if="item.categories" data-ng-bind="item.categories.title"></span>
-     <b ng-if="item.modules"> Module:</b>
+     <b> Module:</b>
       <span ng-if="item.modules" ng-bind="item.modules.title"></span>
       <b> Status:</b>
-      <span ng-if="item.workingStatus" data-ng-bind="item.workingStatus"></span>
+      <span ng-if="item.workingStatus" data-ng-bind="item.modules.workingStatus"></span>
     </a>
   </td>
   <td span= "1" style="width: 4%;">
@@ -51,7 +47,7 @@
   </table>
   </div>
   <div class="alert alert-warning text-center" data-ng-if="items.$resolved && !items.length">
-    No items yet, why don't you <a data-ui-sref="items.create">create one</a>?
+    No items yet, why don't you <a data-ui-sref="admin.items.create">create one</a>?
   </div>
 </section>
 

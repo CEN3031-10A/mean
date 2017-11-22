@@ -27,6 +27,10 @@
         });
       }
     }
+    vm.increment = function(item, increment){
+      item.count = item.count + increment; 
+      ItemsService.//Fix the backend call
+    }
     
     // Save Item
     function save(isValid) {

@@ -96,7 +96,6 @@ exports.deleteModule = function(req, res) {
 exports.create = function (req, res) {
   var item = new Item(req.body);
   item.user = req.user;
-
   item.save(function (err) {
     if (err) {
       return res.status(422).send({
@@ -114,7 +113,6 @@ exports.create = function (req, res) {
 exports.read = function (req, res) {
   // convert mongoose document to JSON
   var item = req.item ? req.item.toJSON() : {};
-
   // Add a custom field to the Item, for determining if the current User is the "owner".
   // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Item model.
   item.isCurrentUserOwner = !!(req.user && item.user && item.user._id.toString() === req.user._id.toString());
@@ -127,7 +125,6 @@ exports.read = function (req, res) {
  */
 exports.update = function (req, res) {
   var item = req.item;
-
   item.title = req.body.title;
   item.content = req.body.content;
   item.categories = req.body.categories;
@@ -135,7 +132,8 @@ exports.update = function (req, res) {
   item.workingStatus = req.body.workingStatus;
   item.count = req.body.count;
   item.restockThreshold = req.body.restockThreshold;
-
+  item.count = req.body.count;
+  
   item.save(function (err) {
     if (err) {
       return res.status(422).send({
@@ -152,7 +150,6 @@ exports.update = function (req, res) {
  */
 exports.delete = function (req, res) {
   var item = req.item;
-
   item.remove(function (err) {
     if (err) {
       return res.status(422).send({
