@@ -10,6 +10,8 @@
       $stateParams,
       $state,
       $location,
+      mockUser1,
+      mockUser2,
       Notification;
 
     beforeEach(function () {
